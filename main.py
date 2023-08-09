@@ -18,9 +18,8 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
 
 # Create Streamlit app
-favicon = Image.open("favicon.png")
 st.set_page_config(page_title=TITLE, page_icon=favicon)
-st.title(TITLE)
+st.subheader(TITLE)
 if "conversation" not in st.session_state:
     st.session_state.conversation = None
 if "chat_history" not in st.session_state:
