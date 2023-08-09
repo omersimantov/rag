@@ -1,6 +1,7 @@
 import os
 import time
 import pinecone
+from PIL import Image
 import streamlit as st
 from dotenv import load_dotenv
 from langchain.vectorstores import Pinecone
@@ -17,7 +18,8 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
 
 # Create Streamlit app
-st.set_page_config(page_title=TITLE)
+favicon = Image.open("favicon.png")
+st.set_page_config(page_title=TITLE, page_icon=favicon)
 st.title(TITLE)
 if "conversation" not in st.session_state:
     st.session_state.conversation = None
@@ -27,9 +29,20 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
+st.markdown(
+    # Hides title links
+    """
+        <style>
+        .css-15zrgzn {display: none}
+        .css-eczf16 {display: none}
+        .css-jn99sy {display: none}
+        </style>
+        """,
+    unsafe_allow_html=True,
+)
 
 # Configure LLM
-llm = ChatOpenAI(model="gpt-4", streaming=True, temperature=0)
+llm = ChatOpenAI(model="gpt-4", temperature=0, streaming=True)
 
 # Initialize vector store
 pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENVIRONMENT)
@@ -47,7 +60,8 @@ chain = ConversationalRetrievalChain.from_llm(
 )
 
 # Handle prompt
-if prompt := st.chat_input():
+prompt = st.chat_input()
+if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
     with st.chat_message("assistant"):
