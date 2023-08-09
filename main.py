@@ -1,7 +1,6 @@
 import os
 import time
 import pinecone
-from PIL import Image
 import streamlit as st
 from dotenv import load_dotenv
 from langchain.vectorstores import Pinecone
