@@ -18,7 +18,7 @@ PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
 
 # Create Streamlit app
 st.set_page_config(page_title=TITLE)
-st.subheader(TITLE)
+st.title(TITLE)
 if "conversation" not in st.session_state:
     st.session_state.conversation = None
 if "chat_history" not in st.session_state:
