@@ -1,7 +1,6 @@
 import os
 import time
 import pinecone
-from PIL import Image
 import streamlit as st
 from dotenv import load_dotenv
 from langchain.vectorstores import Pinecone
@@ -18,8 +17,7 @@ PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME")
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT")
 
 # Create Streamlit app
-favicon = Image.open("favicon.png")
-st.set_page_config(page_title=TITLE, page_icon=favicon)
+st.set_page_config(page_title=TITLE)
 st.title(TITLE)
 if "conversation" not in st.session_state:
     st.session_state.conversation = None
